@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<package>
+  <job id="compare-docx">
+    <runtime>
+      <description>`compare-docx` takes two Word.Document and compares them.</description>
+      <unnamed
+        name="lhs"
+        helpstring="left hand side document filespec"
+        type="string"
+        required="true"
+      />
+      <unnamed
+        name="rhs"
+        helpstring="right hand side document filespec"
+        type="string"
+        required="true"
+      />
+      <example>
+        Examples:
+
+        Drag and drop two Word.Document into this file using your GUI.
+
+        or run on your terminal:
+
+        > cscript compare-docx.wsf lhs.docx rhs.docx
+      </example>
+    </runtime>
+    <reference guid="{00000205-0000-0010-8000-00AA006D2EA4}" />
+    <script language="Javascript" src="config.js"></script>
+    <script language="Javascript" src="helpers/json2.js"></script>
+    <script language="Javascript" src="helpers/helpers.js"></script>
+    <script language="VBScript" src="helpers/helpers.vbs"></script>
+    <script language="VBScript"><![CDATA[
+
+option explicit
+
+' IMPORTANT: taskkill /F /IM winword.exe
+sub main
+  const TITLE = "@nagaozen/compare-docx"
+
+  dim lhs_filespec, rhs_filespec
+  ' get user input
+  with WScript.Arguments
+    if .count = 2 then
+      lhs_filespec = .item(0)
+      rhs_filespec = .item(1)
+    else
+      .showUsage
+      exit sub
+    end if
+  end with
+
+  WScript.echo JSON.stringify(compare_docx( _
+    lhs_filespec, _
+    rhs_filespec _
+  ), null, 2), vbCritical, TITLE
+end sub : main
+
+    ]]></script>
+  </job>
+</package>
