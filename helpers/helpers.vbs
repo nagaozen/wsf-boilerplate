@@ -39,6 +39,12 @@ function base64_to_bin (base64)
   end with
 end function
 
+function environment_variable (byVal name)
+  with createObject("WScript.Shell")
+    environment_variable = .expandEnvironmentStrings(name)
+  end with
+end function
+
 function date_to_iso8601Z (date)
   dim zulu, dt, tm
   with createObject("WScript.Shell")
